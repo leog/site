@@ -1,11 +1,19 @@
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%leog%2Fsite)
 
-# site (based on @leerob's site)
+# site
 
 - **Framework**: [Next.js](https://nextjs.org/)
 - **Deployment**: [Vercel](https://vercel.com)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com)
 - **Analytics**: [Vercel Analytics](https://vercel.com/analytics)
+
+## based on [@leerob's site](https://github.com/leerob/site)
+
+- Removed postgres redirections
+- Renamed "notes" to "posts" (/n to /post)
+- My custom style
+- Adds keywords to posts
+- List posts with certain keywords (/posts/keyword)
 
 ## Running Locally
 
