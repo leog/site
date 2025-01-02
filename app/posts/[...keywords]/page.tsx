@@ -56,7 +56,7 @@ export default async function KeywordsPage({ params }: Readonly<PageProps>) {
           ))}
         </mdxComponents.ul>
       ) : (
-        <mdxComponents.p>No posts found</mdxComponents.p>
+        <mdxComponents.p>No notes found</mdxComponents.p>
       )}
     </div>
   );
