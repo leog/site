@@ -1,6 +1,6 @@
 export function Avatar({ src }: Readonly<{ src: string }>) {
   return (
-    <div className="avatar md:top-[8%] right-0 top-[6%]">
+    <div className="avatar top-[10%] right-0">
       <img src={src} alt="" />
     </div>
   );

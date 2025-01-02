@@ -6,7 +6,7 @@ export function NameTransition() {
         aria-hidden="true"
         className="block overflow-hidden group relative font-semibold"
       >
-        <span className="inline-block transition-all duration-300 ease-in-out group-hover:-translate-y-full">
+        <span className="inline-block transition-all duration-300 ease-in-out group-hover:-translate-y-full whitespace-nowrap	">
           {"Leo Giovanetti".split("").map((letter, index) => (
             <span
               key={index}
