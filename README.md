@@ -9,9 +9,10 @@
 
 ## based on [@leerob's site](https://github.com/leerob/site)
 
+- Dark mode
 - Removed postgres redirections
 - Renamed "notes" to "posts" (/n to /post)
-- My custom style
+- My custom style applied to mdx-components
 - Adds keywords to posts
 - List posts with certain keywords (/posts/keyword)
 
