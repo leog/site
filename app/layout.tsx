@@ -48,7 +48,6 @@ function Footer() {
     { name: "@leog", url: "https://x.com/leog" },
     { name: "linkedin", url: "https://www.linkedin.com/in/leog" },
     { name: "github", url: "https://github.com/leog" },
-    { name: "codepen", url: "https://codepen.io/leog" },
   ];
 
   return (
