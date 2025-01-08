@@ -1,15 +1,26 @@
-import { AnimatedName } from "@/app/post/animated-name.tsx";
+import { AnimatedName } from "@/app/_components/animated-name";
 
 export const metadata = {
   title: "Work",
   alternates: {
     canonical: "/post/work",
   },
+  keywords: ["leog", "experience", "work"],
 };
 
 export function Small({ children }) {
   return (
-    <small className="flex text-sm text-gray-500 -mt-3 mb-3">{children}</small>
+    <small className='flex text-sm text-gray-500 -mt-1'>
+      {children}
+    </small>
+  );
+}
+
+export function WorkTitle({ children }) {
+  return (
+    <div className='border-t border-b border-gray-400 pt-1 pb-2'>
+      {children}
+    </div>
   );
 }
 
@@ -17,30 +28,215 @@ export function Small({ children }) {
 
 <AnimatedName />
 
-On a mission to build products developers [love](/post/devtools), and along the way, teach the next generation of developers. Here's a summary of my work so far.
+Passionate about building scalable solutions and
+leading teams to deliver impactful products.
+Here's a summary of my work so far.
 
-## Vercel
+<WorkTitle>
+  <h2 className='text-text font-medium my-1'>
+    Techie Talent
+  </h2>
+  <Small>
+    Front-end Architect and Team Leader, October
+    2023 – Present
+  </Small>
+</WorkTitle>
 
-<Small>VP of Product</Small>
+At Techie Talent, I am working closely with
+[Infobase](https://infobase.com)'s CTO to shape
+the future of the company with a groundbreaking
+platform. My role includes:
 
-I joined [Vercel](https://vercel.com/home) early to grow [Next.js](https://nextjs.org/) and our developer community. I built our Developer Relations team to teach the community about our products.
+- Taking over a development team as the main
+  architect of the **Musaeum** platform, tasked
+  with consolidating scattered products into a
+  unified multi-entry-point application.
+- Reimagining and implementing a new architecture
+  leveraging the latest technologies:
+  - **Next.js 14+** with App Router and React
+    Server Components for modern, scalable web
+    solutions.
+  - **Prisma** and **AWS RDS MSSQL** for efficient
+    database management.
+  - **Sentry**, **Google Analytics**, and
+    **Pendo** for monitoring and analytics.
+  - **Serverless Stack** to deploy to AWS,
+    supporting PR Previews, pre-production, and
+    production environments.
+- Designing a unified app for all content types,
+  transforming existing product capabilities into
+  an innovative solution that sets a new standard
+  within Infobase.
+- Leading the beta release, receiving positive
+  feedback from early users and demonstrating the
+  platform's potential for broader adoption.
 
-We spoke at conferences, wrote blog posts, and created videos. We built open-source examples and contributed back to the [product](/post/devtools). We [translated customer pain](https://twitter.com/kelseyhightower/status/1105985400110112768) back into the product roadmap. I [shipped](https://twitter.com/leeerob/status/1608900031859527682) a lot of code.
+This platform is Infobase’s first of its class,
+pioneering a new kind of product in the company to
+unify and expand its offerings.
 
-Since joining Vercel in 2020, Next.js has grown 1000%, now with 1 million active developers. Next.js is one of the top software projects on GitHub and used to build [wonderful products](https://nextjs.org/showcase).
+<WorkTitle>
+  <h2 className='text-text font-medium my-1'>
+    Cal.com
+  </h2>
+  <Small>
+    Open Source Collaborator, February 2022 –
+    October 2023
+  </Small>
+</WorkTitle>
 
-## Hy-Vee
+At [Cal.com](https://cal.com/), I was part of the
+core team, working closely with developers and
+community members to improve the platform. My
+contributions included:
 
-<Small>Senior Software Engineer, 2018 - 2020</Small>
+- **Feature Development**: Built advanced
+  scheduling features to accommodate complex user
+  requirements, enabling seamless integrations
+  with external systems.
+- **UI/UX Enhancements**: Collaborated with
+  designers to refine user experience, focusing on
+  accessibility, responsiveness, and modern UI
+  patterns.
+- **Platform Scalability**: Contributed to
+  infrastructure optimizations, improving the
+  performance and reliability of the platform
+  under high user traffic.
+- **Core API Improvements**: Enhanced the
+  scheduling API to support custom workflows and
+  new use cases for enterprise clients.
+- **Community Engagement**: Actively participated
+  in open-source discussions, helping onboard new
+  contributors and maintaining documentation.
+- **Tech Stack**: Next.js, Node.js, TypeScript,
+  React, Vercel, Turborepo.
 
-Hy-Vee, an almost 100-year-old grocery chain in the United States, wanted to build a new version of their digital storefront. I joined a team of [product engineers](/post/product-engineers) working across web and mobile to rebuild their legacy .NET application (~500k MAU) with React and React Native.
+Through these efforts, I helped Cal.com solidify
+its position as a leading open-source scheduling
+platform, driving adoption across individual users
+and enterprise clients alike.
 
-On the frontend, I led our move from a custom webpack and React configuration to Next.js and the latest React patterns. In the process, I shared my learnings online, helping educate members of the React and Next.js community by creating courses.
+<WorkTitle>
+  <h2 className='text-text font-medium my-1'>
+    Globant
+  </h2>
+  <Small>
+    Engineering Manager, March 2021 – March 2022
+  </Small>
+</WorkTitle>
 
-Throughout my two years, I was able to work on some hard problems: decoupling a decade old monolith into microservices, working with a federated GraphQL API, learning and occasionally managing a Kubernetes cluster, building and implementing a design system, incrementally migrating individual components and routes to a new framework and infrastructure, and more.
+At [Globant](https://www.globant.com/), I worked
+closely with the management and governance of
+accounts to achieve strategic goals. Specifically,
+I:
 
-## Workiva
+- Supervised 8 teams of 10-15 people, guiding them
+  to improve the technical ecosystem and mentoring
+  for professional growth.
+- Contributed to the development and maintenance
+  of Globant's EdTech landing page.
+- Utilized technologies like Next.js, TypeScript,
+  Node.js, React, AWS, and Tailwind.
 
-<Small>Software Engineer, 2015 - 2018</Small>
+<WorkTitle>
+  <h2 className='text-text font-medium my-1'>
+    NBC Universal (via Globant)
+  </h2>
+  <Small>
+    Technical Manager, May 2020 – March 2021
+  </Small>
+</WorkTitle>
 
-Workiva ($WK) is a cloud platform for data reporting and compliance. During my time at Workiva, I gained my first production experience using React. I worked on tooling to help predict and alert and regressions in our SaaS platform, building a product similar to open-source tools like Sentry.
+Worked directly with NBCU's Vice President of
+Technology to:
+
+- Optimize tools related to metadata sharing with
+  high-end consumers like Apple iTunes and
+  Netflix.
+- Develop loyalty e-commerce using Points.com for
+  digital content consumption.
+- Key technologies included AWS, Serverless,
+  Node.js, TypeScript, and Tailwind.
+
+<WorkTitle>
+  <h2 className='text-text font-medium my-1'>
+    Atria Wealth Solutions (via Globant)
+  </h2>
+  <Small>
+    Technical Manager, March 2019 – March 2020
+  </Small>
+</WorkTitle>
+
+Served as interim Engineering Director, where I:
+
+- Managed multidisciplinary teams to achieve
+  client goals.
+- Delivered technical solutions as a Solution
+  Owner while providing staffing support.
+- Leveraged technologies such as Node.js, Angular,
+  and AWS.
+
+<WorkTitle>
+  <h2 className='text-text font-medium my-1'>
+    Zaplabs (via Globant)
+  </h2>
+  <Small>
+    Software Architect, April 2018 – March 2019
+  </Small>
+</WorkTitle>
+
+At Zaplabs, I focused on:
+
+- Creating a design system to standardize and
+  accelerate development.
+- Supporting a remote front-end team in Mexico
+  City.
+- Using Native Web Components, TypeScript, and
+  BitBucket.
+
+<WorkTitle>
+  <h2 className='text-text font-medium my-1'>
+    Autodesk (via Globant)
+  </h2>
+  <Small>
+    Software Architect, Dec 2011 – April 2018
+  </Small>
+</WorkTitle>
+
+Shaped frontend solutions for Autodesk's A360
+collaboration tools by:
+
+- Providing reusable resources for internal teams
+  through NPM libraries.
+- Leading multidisciplinary teams to foster
+  collaboration and innovation.
+- Managing CI/CD pipelines for efficient
+  development processes.
+
+<WorkTitle>
+  <h2 className='text-text font-medium my-1'>
+    Partido Digital
+  </h2>
+  <Small>
+    Chief Technology Officer, January 2016 –
+    Present
+  </Small>
+</WorkTitle>
+
+As CTO of
+[Partido Digital](https://partidodigital.org.uy/),
+I:
+
+- Lead the technology vision for the political
+  party.
+- Manage volunteers to work on meaningful
+  improvements to the platform.
+- Develop solutions to fulfill organizational
+  goals using open-source tools and platforms.
+
+---
+
+On a personal note, I enjoy traveling, playing
+tennis, and exploring new technologies. I'm a
+proud father and thrive on continuous learning and
+collaboration.

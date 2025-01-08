@@ -1,4 +1,5 @@
-import { AnimatedName } from "../../animated-name.tsx";
+import { AnimatedName } from "@/app/_components/animated-name";
+import { TitleKeywords } from "@/app/_components/keywords";
 
 export const metadata = {
   title: "Props.to",
@@ -8,6 +9,8 @@ export const metadata = {
   keywords: ["dx"],
 };
 
-# Props.to
+<TitleKeywords {...metadata}>
+  # Props.to
+</TitleKeywords>
 
 <AnimatedName />

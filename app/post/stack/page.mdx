@@ -1,13 +1,17 @@
-import { AnimatedName } from "../animated-name.tsx";
+import { AnimatedName } from "@/app/_components/animated-name";
+import { TitleKeywords } from "@/app/_components/keywords";
 
 export const metadata = {
   title: "My Stack",
   alternates: {
     canonical: "/post/stack",
   },
+  keywords: ["leog", "stack", "technologies"],
 };
 
-# My Stack
+<TitleKeywords {...metadata}>
+  # My Stack
+</TitleKeywords>
 
 <AnimatedName />
 
@@ -15,7 +19,9 @@ Here's where I'm currently most productive:
 
 ## 1. Framework (Next.js and React)
 
-I’ve been working with Next.js since 2018 (and React since 2015) so I'm most productive here. I start all my projects with TypeScript.
+I’ve been working with Next.js since 2018 (and
+React since 2015) so I'm most productive here. I
+start all my projects with TypeScript.
 
 For data fetching, I use newer React patterns:
 
@@ -96,15 +102,30 @@ For data fetching, I use newer React patterns:
     <div className="h-4" />
 </details>
 
-For forms, I use React 19 features like Server Actions and `useActionState`. I’ll also use Zod to validate objects inside my actions. [Here's one example](https://github.com/leerob/next-saas-starter) of this pattern.
+For forms, I use React 19 features like Server
+Actions and `useActionState`. I’ll also use Zod to
+validate objects inside my actions.
+[Here's one example](https://github.com/leerob/next-saas-starter)
+of this pattern.
 
 ## 2. Styling (Tailwind CSS and shadcn/ui)
 
-Building flexible, accessible components is difficult. You either use (and extend) a component library, or build your own. This is why I now use [shadcn/ui](https://ui.shadcn.com/).
+Building flexible, accessible components is
+difficult. You either use (and extend) a component
+library, or build your own. This is why I now use
+[shadcn/ui](https://ui.shadcn.com/).
 
-It provides well-designed and extensible components, built on top of accessible, unstyled primitives. This includes basics like buttons and inputs, but also icons, charts, and even custom themes.
+It provides well-designed and extensible
+components, built on top of accessible, unstyled
+primitives. This includes basics like buttons and
+inputs, but also icons, charts, and even custom
+themes.
 
-Components are styled with Tailwind CSS—the most AI-friendly CSS library. Why? You can easily [colocate your styles](https://adamwathan.me/css-utility-classes-and-separation-of-concerns) with your markup. This makes generating and editing code with AI tools much easier.
+Components are styled with Tailwind CSS—the most
+AI-friendly CSS library. Why? You can easily
+[colocate your styles](https://adamwathan.me/css-utility-classes-and-separation-of-concerns)
+with your markup. This makes generating and
+editing code with AI tools much easier.
 
 <details className="space-y-6">
   <summary className="text-text-lighter text-[15px] mb-2">Why Tailwind?</summary>
@@ -119,22 +140,26 @@ Components are styled with Tailwind CSS—the most AI-friendly CSS library. Why?
 
 ## 3. Database (Postgres and Drizzle)
 
-Postgres is my go-to database. Drizzle makes working with Postgres easy, type-safe, and fun. I can view and modify my data using Drizzle Studio and [run migrations](https://github.com/leerob/next-saas-starter) with Drizzle Kit.
+Postgres is my go-to database. Drizzle makes
+working with Postgres easy, type-safe, and fun. I
+can view and modify my data using Drizzle Studio
+and
+[run migrations](https://github.com/leerob/next-saas-starter)
+with Drizzle Kit.
 
-The best part? Drizzle works [perfectly](https://github.com/vercel-labs/book-inventory) with TypeScript.
-
-## 4. AI (v0)
-
-[v0](https://v0.dev/chat) helps me edit, refactor, and debug code.
-
-It’s especially helpful for more tedious refactors, or restructuring/reformatting code. Since it has up-to-date knowledge of Next.js, React, Drizzle, and other web tools, it give me [great code suggestions](https://x.com/leeerob/status/1834992860904489178).
-
-AI tools aren’t perfect yet, but they’re a [huge time saver](https://x.com/leeerob/status/1828916884642902372).
+The best part? Drizzle works
+[perfectly](https://github.com/vercel-labs/book-inventory)
+with TypeScript.
 
 ## 5. Coding Patterns
 
-- `let` > `const` [most of the time](https://overreacted.io/on-let-vs-const/)
+- `let` > `const`
+  [most of the time](https://overreacted.io/on-let-vs-const/)
 - Larger files > many small components
-- [Colocate code](https://x.com/leeerob/status/1810707436551991412) that changes often close together
+- [Colocate code](https://x.com/leeerob/status/1810707436551991412)
+  that changes often close together
 - Copy/paste is better than the wrong abstraction
-- You might not want [SVGs in your JSX](https://kurtextrem.de/posts/svg-in-js) (explore [sprites](https://benadam.me/thoughts/react-svg-sprites/))
+- You might not want
+  [SVGs in your JSX](https://kurtextrem.de/posts/svg-in-js)
+  (explore
+  [sprites](https://benadam.me/thoughts/react-svg-sprites/))
