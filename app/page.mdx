@@ -1,13 +1,27 @@
 import { NameTransition } from "@/app/_components/name";
 import { Avatar } from "@/app/_components/avatar";
+import { Posts } from "@/app/_components/Posts";
 import { calculateAge } from "@/lib/age";
+
+export const metadata = {
+  metadataBase: new URL("https://leog.me"),
+  alternates: {
+    canonical: "/",
+  },
+  title: {
+    default: "Hi! I'm Leo Giovanetti.",
+    template: "%s from Leo Giovanetti.",
+  },
+  description:
+    "Technical leader, frontend architect.",
+};
 
 <NameTransition />
 <div className='pr-42 md:pr-48'>
   I'm a technical leader, a frontend architect, an
   eternal optimist, and a tennis enthusiast. Dad
-  of my beautiful {calculateAge("02-24-2020")}
-  -years-old daughter.
+  of my beautiful {`${calculateAge("02-24-2020")}-years-old`}
+  daughter.
   <Avatar src='https://avatars.githubusercontent.com/u/467258?s=400&u=f194cd6cde8cfbf3febfa1ae40440b574ae0f707&v=4' />
 </div>
 
@@ -19,10 +33,8 @@ import { calculateAge } from "@/lib/age";
 
 ## Writing
 
-- [On Developer Experience](/post/dx)
-- [My Stack](/post/stack)
+<Posts exclude="side-projects" />
 
 ## Side-projects
 
-- [Props.to](/post/side-projects/props.to): Open
-  Source Feedback Platform
+<Posts include="side-projects" />

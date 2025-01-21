@@ -12,14 +12,17 @@ export function Keywords({
       <div
         className={
           className ??
-          "text-sm text-gray-500 pt-12"
+          "text-sm text-gray-500 fade-in"
         }
       >
         {keywords
           .filter((k) => k !== "leog")
           .map((k) => (
             <span key={k}>
-              <Link href={`/posts/${k}`}>
+              <Link
+                href={`/posts/${k}`}
+                className='hover:decoration-neon hover:underline'
+              >
                 #{k}
               </Link>
               &nbsp;
@@ -40,7 +43,7 @@ export function TitleKeywords({
   className?: string;
 }>) {
   return (
-    <div className='flex justify-between mb-0'>
+    <div className='mb-0'>
       {children}
       <Keywords
         className={className}

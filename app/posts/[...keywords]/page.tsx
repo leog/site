@@ -45,18 +45,16 @@ export default async function KeywordsPage({
 
   return (
     <div className='container mx-auto p-4'>
-      {
-        <mdxComponents.h1>
-          Posts for keywords{" "}
-          {keys.length > 1
-            ? `"${keys
-                .slice(0, -1)
-                .join('", "')}" and "${
-                keys[keys.length - 1]
-              }"`
-            : `"${keywords.join()}"`}
-        </mdxComponents.h1>
-      }
+      <mdxComponents.h1>
+        Posts for keywords{" "}
+        {keys.length > 1
+          ? `"${keys
+              .slice(0, -1)
+              .join('", "')}" and "${
+              keys[keys.length - 1]
+            }"`
+          : `"${keywords.join()}"`}
+      </mdxComponents.h1>
       <AnimatedName />
       {filteredPosts.length > 0 ? (
         <mdxComponents.ul>
@@ -74,6 +72,9 @@ export default async function KeywordsPage({
                 >
                   {post.title}
                 </mdxComponents.a>
+                {post.description
+                  ? `: ${post.description}`
+                  : ""}
               </TitleKeywords>
             </mdxComponents.li>
           ))}
