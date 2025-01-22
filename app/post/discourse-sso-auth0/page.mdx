@@ -1,0 +1,142 @@
+import { AnimatedName } from "@/app/_components/animated-name";
+import { TitleKeywords } from "@/app/_components/keywords";
+import { LinkPreview } from '@/app/_components/LinkPreview';
+import Image from "next/image";
+import discourseSettings from "./discourse_settings.png";
+import auth0Settings from "./auth0_settings.png";
+import diagram1 from "./diagram1.png";
+import diagram2 from "./diagram2.png";
+
+export const metadata = {
+  title: "Discourse SSO with Auth0",
+  description: "You can achieve a very seamless SSO experience with Discourse and Auth0 using one of the best features Auth0 has: rules. Check the “Implementation” section for the code.",
+  alternates: {
+    canonical: "/post/discourse-sso-auth0",
+  },
+  keywords: ["leog", "auth0", "sso", "discourse", "rules"],
+  draft: true,
+};
+
+<TitleKeywords {...metadata}>
+  # Discourse SSO with Auth0
+</TitleKeywords>
+<AnimatedName />
+
+## TL;DR
+
+You can achieve a very seamless SSO experience with Discourse and Auth0 using one of the best features Auth0 has: [rules](https://auth0.com/docs/rules/current). Check the “Implementation” section for the code.
+
+## Background
+
+I don’t know you but I discovered [Discourse](https://discourse.org) a while back when I selected it to be part of the online platform for the new political party we are creating in Uruguay based on ICT.
+
+We needed an easy way people can engage talking and discussing about ideas to be part of the Government Programme. It needed to be something familiar for people, like a forum but adapted to this era. It fitted perfectly.
+
+Now, I also had the fantastic idea (modesty aside) to use a service to handle all the users in order to have a consistent experience throughout all the tools in the platform. Something easy to configure, vast to customize and most importantly, free of charge, as we are just growing and we just get funding based on donations (check out [OpenCollective](https://opencollective.com), very recommended). That’s why I decided to use [Auth0](https://auth0.com). Very neat service which supports open source projects like the political party I work for and support.
+
+So, anyway, although there is a nice Discourse plugin to hook up Auth0 authentication, I always struggled with how it handled the creation of a user which needed to be re-created in Discurse database to work. What’s the point of having a super user handling service if at the end the user needs to tackle a user creation dialog on Discourse?
+
+## Understanding the problem
+
+After a while trying to understand how stuff worked on both ends, Discourse and Auth0, I got the idea of implementing what Discourse needed on Auth0’s side.
+
+When I say a while trying to understand how stuff worked on both ends, I mean submitting a bunch of questions which got very good answers most of the times.
+
+These are some of my attemps:
+
+<LinkPreview
+  url="https://meta.discourse.org/t/official-single-sign-on-for-discourse-sso/13045/345?u=leog"
+/>
+
+<LinkPreview url="https://github.com/auth0/discourse-plugin/issues/20?ref=leog.me" />
+
+<LinkPreview url="https://meta.discourse.org/t/sso-vs-oauth2-difference/76543/3?u=leog&ref=leog.me" />
+
+And that last one was key for the findings relevant to this blog post 💡
+
+
+Thanks to [Michael Brown](https://medium.com/u/427713c39142)’s [super neat reply](https://meta.discourse.org/t/login-to-discourse-with-custom-oauth2-provider/14717/22?u=leog) with the following diagrams, I got the realization that something could be done from the authentication service side.
+<figure className="flex flex-col items-center text-center">
+  <Image src={diagram1} className="object-cover" alt="How Discourse handles OAuth2 authentication" />
+  <figcaption className="text-sm">How Discourse handles OAuth2 authentication</figcaption>
+</figure>
+<figure className="flex flex-col items-center text-center">
+  <Image src={diagram2} className="object-cover" alt="How Discourse handles SSO with whatever authentication mechanisms is behind (OAuth2 in this case)" />
+  <figcaption className="text-sm">How Discourse handles SSO with whatever authentication mechanisms<br/> is behind (OAuth2 in this case)</figcaption>
+</figure>
+
+What a journey! But anyway, here comes the code.
+
+## Implementation
+
+First of all, a big shoutout to [Johan Jatko](https://twitter.com/ArmedGuy) for creating the [discourse-sso](https://www.npmjs.com/package/discourse-sso) node.js package that simplified a lot of code for me to implement this.
+
+This code goes into a new Auth0 rule which is going to be run when a user signs in from Discourse using SSO:
+
+```js
+function (user, context, callback) {
+  // Check whether the Auth0 client is the one we want to apply this rule to
+  if(context.clientID === "CLIENT_ID") {
+    
+    // Check out Discourse's SSO implementation requirements already in discourse-sso package
+    // at https://meta.discourse.org/t/official-single-sign-on-for-discourse-sso/13045#heading--implement
+    var discourse_sso = require('discourse-sso');
+    
+    // Setup sso_secret variable on your client variables on Auth0 so you don't need to have it inline in your code
+    var sso = new discourse_sso(context.clientMetadata.sso_secret);
+    
+    // Validate the query payload with its signature (it uses the sso_secret passed to the discourse_sso instance)
+    if(sso.validate(context.request.query.sso, context.request.query.sig)) {
+      
+      // Extract nonce information 
+      var nonce = sso.getNonce(context.request.query.sso);
+      
+      var userparams = {
+        // Required, will throw exception otherwise 
+        "nonce": nonce,
+        "external_id": user.user_id,
+        "email": user.email,
+        // Optional
+        "username": user.nickname,
+        "require_activation": !user.email_verified,
+        "suppress_welcome_message": true
+      };
+    
+      var q = sso.buildLoginString(userparams);
+    
+      context.redirect = {
+          url: "DISCOURSE_URL/session/sso_login?" + q
+      };
+    }
+  }
+  
+  callback(null, user, context);
+}
+```
+
+Please replace CLIENT_ID and DISCOURSE_URL with your information. And on line 10, `context.clientMetadata.sso_secret` is a variable (can be a just a string with the value but avoid doing that as much as possible) set on your Auth0 Client advanced configuration, like this:
+
+<figure className="flex flex-col justify-center text-center">
+  <Image src={auth0Settings} alt="Auth0 Client Advanced settings to setup sso_secret" />
+  <figcaption>Auth0 Client Advanced settings to setup sso_secret</figcaption>
+</figure>
+
+Then, in your Discourse instance, under Settings > Login, you will find these options:
+
+<figure className="flex flex-col justify-center text-center">
+  <Image src={discourseSettings} alt="Discourse Admin Login SSO options" />
+  <figcaption>Discourse Admin Login SSO options</figcaption>
+</figure>
+
+The important fields are:
+ - **enable sso**
+ - sso url: `https://AUTH0_DOMAIN/authorize?client_id=CLIENT_ID&response_type=code`
+ - sso secret: same as the one included in Auth0 Client variables above
+
+The following ones are just to customize how SSO information from Auth0 can override Discourse information. I suggest enabling **verbose sso logging** so you can debug better any potential issues related to SSO.
+
+> **Note: The rule you create to handle this flow will execute and then as the authentication attempt will stop there (no call to /continue?state=STATE_ID will happen), no other subsequent rule will execute, so mind the order of the rules.**
+
+Hope it helps someone as lost as I was 👍
+
+And continue giving me feedback, don’t hesitate to let me know if you can think of any improvement.

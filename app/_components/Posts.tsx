@@ -10,8 +10,8 @@ export async function Posts({
 }>) {
   const posts = await getAllPosts();
   const postsExcluded = exclude
-    ? posts.filter((post) =>
-        post.keywords.includes(exclude)
+    ? posts.filter(
+        (post) => !post.keywords.includes(exclude)
       )
     : posts;
   const postsIncluded = include

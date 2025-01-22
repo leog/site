@@ -27,7 +27,7 @@ export const mdxComponents = {
   ),
   h2: ({ children, ...rest }: HeadingProps) => (
     <h2
-      className='text-text font-medium mt-8 mb-3'
+      className='text-text font-bold mt-8 mb-3 text-xl'
       {...rest}
     >
       {children}
