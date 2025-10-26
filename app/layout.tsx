@@ -63,29 +63,34 @@ function Footer() {
   return (
     <footer className='mt-12 text-center'>
       <div className='flex justify-center space-x-4 tracking-tight'>
-        I'm leog in <a
-            href="https://x.com/leog"
-            target='_blank'
-            rel='noopener noreferrer'
-            className='text-gray-400 underline decoration-neon hover:text-text-lighter transition-colors duration-200'
-          >
-            X
-          </a>, <a
-            href="https://linkedin.com/in/leog"
-            target='_blank'
-            rel='noopener noreferrer'
-            className='text-gray-400 underline decoration-neon hover:text-text-lighter transition-colors duration-200'
-          >
-            LinkedIn
-          </a> and <a
-            href="https://github.com/leog"
-            target='_blank'
-            rel='noopener noreferrer'
-            className='text-gray-400 underline decoration-neon hover:text-text-lighter transition-colors duration-200'
-          >
-            GitHub
-          </a> 😏
-        ))}
+        I'm leog in{" "}
+        <a
+          href='https://x.com/leog'
+          target='_blank'
+          rel='noopener noreferrer'
+          className='text-gray-400 underline decoration-neon hover:text-text-lighter transition-colors duration-200'
+        >
+          X
+        </a>
+        ,{" "}
+        <a
+          href='https://linkedin.com/in/leog'
+          target='_blank'
+          rel='noopener noreferrer'
+          className='text-gray-400 underline decoration-neon hover:text-text-lighter transition-colors duration-200'
+        >
+          LinkedIn
+        </a>{" "}
+        and{" "}
+        <a
+          href='https://github.com/leog'
+          target='_blank'
+          rel='noopener noreferrer'
+          className='text-gray-400 underline decoration-neon hover:text-text-lighter transition-colors duration-200'
+        >
+          GitHub
+        </a>{" "}
+        😏
       </div>
     </footer>
   );
