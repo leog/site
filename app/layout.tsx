@@ -63,8 +63,8 @@ function Footer() {
   return (
     <footer className='mt-12 text-center'>
       <div className='flex justify-center tracking-tight'>
-        I'm <b className='font-bold'>leog</b>{" "}
-        in&nbsp;
+        I'm&nbsp;<b className='font-bold'>leog</b>
+        &nbsp;in&nbsp;
         <a
           href='https://x.com/leog'
           target='_blank'
