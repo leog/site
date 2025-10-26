@@ -63,7 +63,7 @@ function Footer() {
   return (
     <footer className='mt-12 text-center'>
       <div className='flex justify-center space-x-4 tracking-tight'>
-        I'm leog in{" "}
+        I'm leog in&nbsp;
         <a
           href='https://x.com/leog'
           target='_blank'
@@ -72,7 +72,7 @@ function Footer() {
         >
           X
         </a>
-        ,{" "}
+        ,&nbsp;
         <a
           href='https://linkedin.com/in/leog'
           target='_blank'
@@ -80,8 +80,8 @@ function Footer() {
           className='text-gray-400 underline decoration-neon hover:text-text-lighter transition-colors duration-200'
         >
           LinkedIn
-        </a>{" "}
-        and{" "}
+        </a>
+        &nbsp; and&nbsp;
         <a
           href='https://github.com/leog'
           target='_blank'
@@ -89,8 +89,8 @@ function Footer() {
           className='text-gray-400 underline decoration-neon hover:text-text-lighter transition-colors duration-200'
         >
           GitHub
-        </a>{" "}
-        😏
+        </a>
+        &nbsp;😏
       </div>
     </footer>
   );
