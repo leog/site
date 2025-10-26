@@ -82,7 +82,7 @@ function Footer() {
         >
           LinkedIn
         </a>
-        &nbsp; and&nbsp;
+        &nbsp;and&nbsp;
         <a
           href='https://github.com/leog'
           target='_blank'
