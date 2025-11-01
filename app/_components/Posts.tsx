@@ -5,18 +5,36 @@ export async function Posts({
   exclude,
   include,
 }: Readonly<{
-  exclude?: string;
-  include?: string;
+  exclude?: string | string[];
+  include?: string | string[];
 }>) {
   const posts = await getAllPosts();
-  const postsExcluded = exclude
+  const normalize = (keywords?: string | string[]) =>
+    Array.isArray(keywords)
+      ? keywords
+          .map((keyword) => keyword.trim().toLowerCase())
+          .filter(Boolean)
+      : keywords
+      ? [keywords.trim().toLowerCase()]
+      : [];
+
+  const excludes = normalize(exclude);
+  const includes = normalize(include);
+
+  const postsExcluded = excludes.length
     ? posts.filter(
-        (post) => !post.keywords.includes(exclude)
+        (post) =>
+          !post.keywords.some((keyword) =>
+            excludes.includes(keyword.toLowerCase())
+          )
       )
     : posts;
-  const postsIncluded = include
-    ? postsExcluded.filter(
-        (post) => !post.keywords.includes(include)
+
+  const postsIncluded = includes.length
+    ? postsExcluded.filter((post) =>
+        post.keywords.some((keyword) =>
+          includes.includes(keyword.toLowerCase())
+        )
       )
     : postsExcluded;
   return (
