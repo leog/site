@@ -8,7 +8,7 @@ export const metadata = {
     canonical: "/post/props.to",
   },
   keywords: ["leog", "side-project", "feedback", "platform", "open-source"],
-  draft: true,
+  draft: false,
 };
 
 <TitleKeywords {...metadata}>
@@ -16,20 +16,71 @@ export const metadata = {
 </TitleKeywords>
 <AnimatedName />
 
-## Backstory part 1
 
-I had the chance to join a very prominent software factory company early on my career. This company, called Globant, was just landing to Uruguay and I was employee lucky number 13. I was well into my CS bachelor degree and I was introduced to this big multi-national company. As you can imagine, it already had processes to give feedback to their employees, and those processes improved, mutated and became a very big equation to try to meassure how an employee, called Glober, was performing. Even bonuses were tied to performance evaluations which was also fed by colleague's feedback as well as your direct leader. Feedback became a thing very early on my career, a very mundane thing, something we all had to deal with and almost never remembered it existed up until performance assessments periods came to play in the year.
 
-It was not a perfect process, there is no perfect process. Sometimes you got good feedback and impacted well, sometimes not. Luckily for me I always saw it as something useful, a tool to let others know your thoughts about their work, meassured by the values the company promoted. Those valueas actually mutated as well, new ones were introduced along the way. The feedback processes started to be more defined and new iterations of the feedback tools were released. Internally also helped to know beforehand if someone available to work with the skills you were after was an easy-going person or perhaps the person had issues before, which could lead to decide whether someone was fit to join your team or not. Feedback was a serious thing. It became a tool to help make decisions in the company. And even if it was not perfect, it felt that your effort, your feelings, other prople's perception of you and your work mattered.
+## Big company phase
 
-Years passed and the internal tool for feedback became itas own thing, sellable to clients for their own organization. It made sense, our company's understanding of how feedback can help shape a better organization was certainly sharable with other companies. Give or take every organization strives for pretty much the same values, they can be called differently or have a more stricter way to conceive a value that other companies, but that's just a pretty simple configuration layer to their already implemented tool.
+Early in my career, I had the chance to join a very prominent software company called **Globant**, which was just landing in Uruguay at the time. I was employee number 13 — lucky number 13. I was deep into my Computer Science degree and suddenly found myself inside a large multinational company.
 
-I have to say, I never saw any of the clients I was working for use or even have the slightest interest of using that tool continuously, but surprisingly, the feedback asked to the clients about their hired team was not directly made within that tool, that was just a Google Form or a very calculated exchange of emails.
+As you’d expect, the company already had structured processes to give feedback to its employees. Those processes evolved constantly — improving, mutating, and feeding into a big equation to measure how each employee (called a *Glober*) was performing. Even bonuses were tied to performance evaluations, which were influenced not just by your leader’s assessment but also by your peers’ feedback.  
 
-Year went by, feedback was still part of how the company was set to work. I got a very fat bonus due to my contributions but also due to the oh-so-desired multiplier calculated by your received feedback from colleagues and leaders.
+Feedback became a part of my professional life very early — a mundane, recurring thing that we all had to deal with, but rarely thought about until evaluation season came around.
 
-## Backstory part 2
+It wasn’t a perfect system — no process ever is. Sometimes you got good feedback and it lifted you up; sometimes it didn’t. Fortunately, I always saw feedback as something useful — a tool to let others know your thoughts about their work, framed by the company’s values. Those values evolved too, with new ones introduced over time.  
 
-I'm not going to tell the story again about how I came into open source to work for a Commercial Open Sourece Software company as Cal.com. [Here you have the full story](/post/lucky-stumble-into-open-source) if you are interested. 
+The feedback process became more structured, and new iterations of the internal tool were released. It even became a way for leaders to anticipate who would be available soon, with which skills, and even what kind of collaborator someone was — whether they were easy-going or had issues in the past. It became a serious tool for decision-making. Even if imperfect, it felt like your effort, your feelings, and other people’s perceptions of you actually *mattered*.
 
-Long story short, I worked in this open source company that was a real change from the big established full-of-processes company. And they lacked a feedback process. Or should I say they lacked a REAL feedback process.
+Years went by, and that internal feedback tool eventually became its own product — something sellable to clients for their organizations. It made sense: our company’s understanding of how feedback helps shape better organizations was definitely something others could benefit from.  
+
+After all, most organizations strive for similar values. They might call them differently or interpret them in more rigid ways, but that’s just a configuration layer on top of the same foundation.
+
+That said, I never saw any of the clients I worked with actually *use* that tool — or even show much interest in it. Ironically, when clients were asked to provide feedback, it usually happened through... a Google Form. Or worse, through a patchwork of emails.
+
+Years passed, and feedback remained a core part of how the company operated. I even got a hefty bonus once, thanks not only to my contributions but also to the oh-so-important multiplier driven by feedback from colleagues and leaders. I was genuinely grateful for that.
+
+---
+
+## Startup phase
+
+I’m not going to retell the story of how I stumbled into open source and ended up working for a Commercial Open Source Software company like **Cal.com** — you can read [the full story here](/post/lucky-stumble-into-open-source).
+
+Long story short, joining an open source startup was a radical shift from the large, process-heavy corporate world. But it came with a surprise: **they didn’t really have a proper feedback process.**
+
+There was someone in charge of “checking in” with people every so often. You’d have short meetings to answer questions about your mood, workload, and sense of belonging — all by picking numbers between 1 and 10. It felt awkward. The results weren’t shared with you, and you had no real insight into how you were perceived. It felt like you were just another data point on someone’s spreadsheet.
+
+Leadership, of course, had their own opinions about you — ones you never heard. The only feedback you’d get was through emoji reactions from the founders in the chat app we used.
+
+At one point, I had a particularly rough experience. I was leading a very high-profile feature, collaborating with almost the entire dev and design team — including leadership. My work was scrutinized at every step by technical leads, and things were going smoothly... until they weren’t.  
+
+Deadlines were set almost arbitrarily. Unexpected bugs appeared. Suddenly, doubts arose about the technical approach — even though everyone had been on board before. I had several one-on-one conversations with the founders and the engineering manager, who told me I was doing great work and had nothing to worry about.  
+
+But it didn’t feel true. There was a growing disconnect between my perception and leadership’s — between what was said and what was *felt*.
+
+---
+
+## Props.to
+
+All those experiences — from the over-engineered corporate feedback loops to the vague emoji-based validation at startups — left me with one clear realization: **feedback is broken.**
+
+We’ve built systems that treat feedback either as bureaucratic checkboxes or as vanity signals. Neither truly helps people grow, collaborate, or understand how they’re perceived.
+
+Today, when someone wants to collect feedback, they usually reach for something like a **Google Form** — a dull, static interface where opinions go to die. The UI feels lifeless. You fill a grey box, hit submit, and your thoughts vanish into someone else’s spreadsheet.  
+
+If the company uses a proprietary HR or “engagement” platform, it’s even worse. Your feedback disappears into a **black box** you don’t control. You never get to bring it with you when you move jobs or projects. You lose the history of how you’ve evolved, how you’ve contributed, and how others have seen you grow.
+
+That’s the heart of **Props.to** — a reaction against that opacity.  
+An **open-source feedback platform** built on three simple ideas:
+
+1. **Transparency** — Feedback shouldn’t vanish. It should live where you can see it, revisit it, and learn from it.  
+2. **Portability** — Your feedback is part of *your* story. It belongs to you, not to a company’s closed system.  
+3. **Expression** — Feedback should feel alive. Not a static form, but a dynamic exchange — animated, visual, human.
+
+Props.to reimagines feedback as something **you own**, not something **you surrender**. It’s feedback that follows you — across teams, jobs, and communities — so your growth, your reputation, and your impact don’t get reset every time you change context.
+
+It’s feedback made **beautiful**, **open**, and **human**.  
+No black boxes. No lifeless forms.  
+Just people giving props to people — in the open.
+
+That’s how the idea of **Props.to** began taking shape — born from the frustration of static forms and black-box platforms, and driven by the desire for a **transparent, open, and portable way to give and receive feedback**, without depending on rigid systems, opaque evaluations, or locked-in corporate tools.  
+
+**Something honest. Something human.**
