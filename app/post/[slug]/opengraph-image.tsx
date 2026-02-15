@@ -20,95 +20,85 @@ const truncate = (value: string, max = 200) => {
   return `${value.slice(0, max - 1).trimEnd()}…`;
 };
 
-export default async function Image({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function Image({ params }: { params: { slug: string } }) {
   const post = await getPostBySlug(params.slug);
 
-  const title =
-    post?.title ?? "A note from Leo Giovanetti";
+  const title = post?.title ?? "A note from Leo Giovanetti";
   const excerptSource =
     post?.description ??
     "Thoughts from Leo Giovanetti on product, engineering, and leadership.";
-  const excerpt = truncate(
-    excerptSource.replace(/\s+/g, " ").trim()
-  );
+  const excerpt = truncate(excerptSource.replace(/\s+/g, " ").trim());
 
   return new ImageResponse(
-    (
+    <div
+      style={{
+        fontFamily: "Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        width: "100%",
+        height: "100%",
+        padding: "80px",
+        background,
+        color: foreground,
+      }}
+    >
       <div
         style={{
-          fontFamily:
-            "Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+          display: "flex",
+          fontSize: 62,
+          fontWeight: 600,
+          letterSpacing: "-0.035em",
+        }}
+      >
+        Hi! I'm Leo Giovanetti
+        <span style={{ color: neon }}>.</span>
+      </div>
+      <div
+        style={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          width: "100%",
-          height: "100%",
-          padding: "80px",
-          background,
-          color: foreground,
+          gap: 24,
+          maxWidth: "820px",
         }}
       >
         <div
           style={{
             display: "flex",
-            fontSize: 62,
+            fontSize: 56,
             fontWeight: 600,
-            letterSpacing: "-0.035em",
+            lineHeight: 1.1,
           }}
         >
-          Hi! I'm Leo Giovanetti
-          <span style={{ color: neon }}>.</span>
+          {title}
         </div>
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            gap: 24,
-            maxWidth: "820px",
+            fontSize: 30,
+            lineHeight: 1.4,
+            color: muted,
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              fontSize: 56,
-              fontWeight: 600,
-              lineHeight: 1.1,
-            }}
-          >
-            {title}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: 30,
-              lineHeight: 1.4,
-              color: muted,
-            }}
-          >
-            {excerpt}
-          </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            fontSize: 26,
-            fontWeight: 500,
-            color: neon,
-            letterSpacing: "0.08em",
-          }}
-        >
-          leog.me&nbsp;/&nbsp;post&nbsp;/&nbsp;
-          {params.slug}
+          {excerpt}
         </div>
       </div>
-    ),
+      <div
+        style={{
+          display: "flex",
+          fontSize: 26,
+          fontWeight: 500,
+          color: neon,
+          letterSpacing: "0.08em",
+        }}
+      >
+        leog.me/post/
+        {params.slug}
+      </div>
+    </div>,
     {
       ...size,
-    }
+    },
   );
 }

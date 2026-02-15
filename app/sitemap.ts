@@ -1,24 +1,17 @@
-import { getPostSlugs } from "@/lib/posts";
-import path from "path";
+import { getAllPosts } from "@/lib/posts";
 
 export default async function sitemap() {
-  const postsDirectory = path.join(
-    process.cwd(),
-    "app",
-    "post"
-  );
-  const slugs = await getPostSlugs(
-    postsDirectory
-  );
+  const postsMeta = await getAllPosts();
 
-  const posts = slugs.map((slug) => ({
-    url: `https://leog.me/post/${slug}`,
-    lastModified: new Date().toISOString(),
+  const posts = postsMeta.map((post) => ({
+    url: `https://leog.me${post.alternates.canonical}`,
+    lastModified: post.updatedAt ?? post.date ?? post.fileLastModified,
   }));
 
+  const now = new Date().toISOString();
   const routes = ["", "/work"].map((route) => ({
     url: `https://leog.me${route}`,
-    lastModified: new Date().toISOString(),
+    lastModified: now,
   }));
 
   return [...routes, ...posts];
