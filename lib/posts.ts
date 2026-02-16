@@ -66,10 +66,12 @@ export async function getAllPosts(): Promise<Post[]> {
 
   const keystaticPosts = await getKeystaticPostsMeta();
   for (const post of keystaticPosts) {
-    posts.push({
-      ...post,
-      slug: post.slug,
-    });
+    if (!posts.some((p) => p.slug === post.slug)) {
+      posts.push({
+        ...post,
+        slug: post.slug,
+      });
+    }
   }
 
   posts.sort((a, b) => {
