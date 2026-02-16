@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
   },
   turbopack: {},
   outputFileTracingIncludes: {
-    "/api/keystatic/[...params]": ["./content/**/*"],
+    "/api/keystatic": ["./content/**/*"],
   },
 };
 
