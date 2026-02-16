@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
     mdxRs: true,
   },
   turbopack: {},
+  outputFileTracingIncludes: {
+    "/api/keystatic/[...params]": ["./content/**/*"],
+  },
 };
 
 const withMDX = createMDX({});
