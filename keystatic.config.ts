@@ -1,7 +1,7 @@
 import { collection, config, fields, singleton } from "@keystatic/core";
 
-const repoOwner = process.env.KEYSTATIC_GITHUB_REPO_OWNER;
-const repoName = process.env.KEYSTATIC_GITHUB_REPO_NAME;
+const repoOwner = process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO_OWNER;
+const repoName = process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO_NAME;
 
 const storage =
   repoOwner && repoName
