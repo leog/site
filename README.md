@@ -28,6 +28,31 @@ bun run delete # Remove all of my posts
 bun dev
 ```
 
+## CMS (Keystatic)
+
+This repo includes Keystatic at `/keystatic`.
+
+- Local mode (default): no extra setup needed.
+- Remote/GitHub mode: set the env vars below.
+
+```bash
+KEYSTATIC_GITHUB_REPO_OWNER=leog
+KEYSTATIC_GITHUB_REPO_NAME=site
+KEYSTATIC_GITHUB_CLIENT_ID=...
+KEYSTATIC_GITHUB_CLIENT_SECRET=...
+KEYSTATIC_SECRET=...
+NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG=...
+```
+
+When `KEYSTATIC_GITHUB_REPO_OWNER` and
+`KEYSTATIC_GITHUB_REPO_NAME` are set, Keystatic uses GitHub storage.
+Otherwise it falls back to local file storage.
+
+You can manage:
+
+- `Posts` collection (renders under `/post/[slug]`)
+- `Work Page` singleton (renders under `/work`, with fallback to local static content if not created yet)
+
 ## License
 
 1. You are free to use this code as inspiration.

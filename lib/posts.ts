@@ -1,11 +1,12 @@
-import path from "path";
-import { promises as fs } from "fs";
+import { promises as fs } from "node:fs";
+import path from "node:path";
+import { getKeystaticPostsMeta } from "./keystatic";
 import { getPostMeta, type PostMeta } from "./post-meta";
 
 export interface Post extends PostMeta {
   slug: string;
-  filePath: string;
-  fileLastModified: string;
+  filePath?: string;
+  fileLastModified?: string;
 }
 
 export async function getPostSlugs(dir: string) {
@@ -58,6 +59,14 @@ export async function getAllPosts(): Promise<Post[]> {
         fileLastModified: fileStats.mtime.toISOString(),
       });
     }
+  }
+
+  const keystaticPosts = await getKeystaticPostsMeta();
+  for (const post of keystaticPosts) {
+    posts.push({
+      ...post,
+      slug: post.slug,
+    });
   }
 
   posts.sort((a, b) => {
