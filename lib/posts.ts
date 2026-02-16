@@ -35,7 +35,9 @@ const toTimestamp = (value?: string) => {
 };
 
 export async function getAllPosts(): Promise<Post[]> {
-  const slugs = await getPostSlugs(path.join(process.cwd(), "app", "post"));
+  const slugs = await getPostSlugs(
+    path.join(process.cwd(), "app", "(site)", "post"),
+  );
   const posts: Post[] = [];
 
   for (const slug of slugs) {
@@ -47,6 +49,7 @@ export async function getAllPosts(): Promise<Post[]> {
       const filePath = path.join(
         process.cwd(),
         "app",
+        "(site)",
         "post",
         slug,
         "page.mdx",
@@ -63,10 +66,12 @@ export async function getAllPosts(): Promise<Post[]> {
 
   const keystaticPosts = await getKeystaticPostsMeta();
   for (const post of keystaticPosts) {
-    posts.push({
-      ...post,
-      slug: post.slug,
-    });
+    if (!posts.some((p) => p.slug === post.slug)) {
+      posts.push({
+        ...post,
+        slug: post.slug,
+      });
+    }
   }
 
   posts.sort((a, b) => {
