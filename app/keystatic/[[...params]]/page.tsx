@@ -1,4 +1,7 @@
+import type { Config } from "@keystatic/core";
 import keystaticConfig from "@/keystatic.config";
-import { makePage } from "@keystatic/next/ui/app";
+import { Keystatic } from "@keystatic/core/ui";
 
-export default makePage(keystaticConfig);
+export default function KeystaticPage() {
+  return <Keystatic config={keystaticConfig as Config} />;
+}

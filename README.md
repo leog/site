@@ -41,12 +41,15 @@ KEYSTATIC_GITHUB_REPO_NAME=site
 KEYSTATIC_GITHUB_CLIENT_ID=...
 KEYSTATIC_GITHUB_CLIENT_SECRET=...
 KEYSTATIC_SECRET=...
-NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG=...
 ```
 
 When `KEYSTATIC_GITHUB_REPO_OWNER` and
 `KEYSTATIC_GITHUB_REPO_NAME` are set, Keystatic uses GitHub storage.
 Otherwise it falls back to local file storage.
+
+`NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` is only needed if
+you switch to a GitHub App based flow. It is not needed for
+the OAuth App setup.
 
 You can manage:
 

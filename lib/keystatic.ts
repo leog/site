@@ -3,6 +3,8 @@ import { createReader } from "@keystatic/core/reader";
 import keystaticConfig from "@/keystatic.config";
 import type { PostMeta } from "./post-meta";
 
+export const runtime = "nodejs";
+
 const reader = createReader(process.cwd(), keystaticConfig);
 
 export interface KeystaticPost extends PostMeta {

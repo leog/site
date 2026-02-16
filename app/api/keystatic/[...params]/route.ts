@@ -1,6 +1,20 @@
+import { makeGenericAPIRouteHandler } from "@keystatic/core/api/generic";
 import keystaticConfig from "@/keystatic.config";
-import { makeRouteHandler } from "@keystatic/next/route-handler";
 
-export const { GET, POST } = makeRouteHandler({
+const handler = makeGenericAPIRouteHandler({
   config: keystaticConfig,
 });
+
+async function wrappedHandler(request: Request) {
+  const url = new URL(request.url);
+  if (url.hostname === "localhost") {
+    url.hostname = "127.0.0.1";
+    request = new Request(url.toString(), request);
+  }
+
+  const { body, headers, status } = await handler(request);
+  return new Response(body as BodyInit | null, { status, headers });
+}
+
+export const GET = wrappedHandler;
+export const POST = wrappedHandler;
