@@ -34,7 +34,7 @@ export default config({
           validation: { isRequired: true },
         }),
         slug: fields.slug({
-          name: { label: "Slug", validation: { isRequired: true } },
+          name: { label: "Slug" },
         }),
         description: fields.text({
           label: "Description",
