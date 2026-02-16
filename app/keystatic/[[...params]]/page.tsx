@@ -1,7 +1,6 @@
-import type { Config } from "@keystatic/core";
-import keystaticConfig from "@/keystatic.config";
-import { Keystatic } from "@keystatic/core/ui";
+"use client";
 
-export default function KeystaticPage() {
-  return <Keystatic config={keystaticConfig as Config} />;
-}
+import keystaticConfig from "@/keystatic.config";
+import { makePage } from "@keystatic/next/ui/app";
+
+export default makePage(keystaticConfig);
