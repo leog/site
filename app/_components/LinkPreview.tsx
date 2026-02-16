@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { JSDOM } from "jsdom";
 
 type MetaTags = {
   "og:title"?: string;
@@ -12,49 +11,65 @@ type MetaTags = {
   "twitter:image"?: string;
 };
 
+const extractTagContent = (html: string, pattern: RegExp) => {
+  const match = html.match(pattern);
+  return match?.[1]?.trim();
+};
+
+const decodeHtmlEntities = (value?: string) => {
+  if (!value) {
+    return value;
+  }
+  return value
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+};
+
 const extractMetaTags = async (url: string) => {
   try {
     const response = await fetch(url);
+    if (!response.ok) {
+      return null;
+    }
     const html = await response.text();
-    const dom = new JSDOM(html);
-    const document = dom.window.document;
-    const metaTags: MetaTags = Array.from(
-      document.querySelectorAll("meta")
-    ).reduce((tags, meta) => {
-      const name =
-        meta.getAttribute("name") ||
-        meta.getAttribute("property") ||
-        meta.getAttribute("itemprop");
-      const content =
-        meta.getAttribute("content");
-
-      if (name && content) {
-        tags = { ...tags, [name]: content };
-      }
-
-      return tags;
-    }, {});
+    const title = decodeHtmlEntities(
+      extractTagContent(html, /<title[^>]*>([\s\S]*?)<\/title>/i),
+    );
+    const findMeta = (name: string) =>
+      decodeHtmlEntities(
+        extractTagContent(
+          html,
+          new RegExp(
+            `<meta[^>]+(?:name|property|itemprop)=["']${name}["'][^>]+content=["']([^"']+)["'][^>]*>`,
+            "i",
+          ),
+        ),
+      );
+    const metaTags: MetaTags = {
+      "og:title": findMeta("og:title"),
+      "twitter:title": findMeta("twitter:title"),
+      "og:description": findMeta("og:description"),
+      "twitter:description": findMeta("twitter:description"),
+      description: findMeta("description"),
+      image: findMeta("image"),
+      "og:image": findMeta("og:image"),
+      "twitter:image": findMeta("twitter:image"),
+    };
 
     return {
-      title:
-        document.title ??
-        metaTags["og:title"] ??
-        metaTags["twitter:title"],
+      title: title ?? metaTags["og:title"] ?? metaTags["twitter:title"],
       description:
         metaTags.description ??
         metaTags["og:description"] ??
         metaTags["twitter:description"],
       image:
-        metaTags.image ??
-        metaTags["og:image"] ??
-        metaTags["twitter:image"],
+        metaTags.image ?? metaTags["og:image"] ?? metaTags["twitter:image"],
     };
   } catch (error) {
-    console.error(
-      "Error fetching Open Graph details",
-      error,
-      url
-    );
+    console.error("Error fetching Open Graph details", error, url);
   }
 };
 
@@ -69,30 +84,30 @@ export async function LinkPreview({
   if (!data) {
     return <p>Failed to fetch link preview.</p>;
   }
+
+  const imageUrl = data.image ?? "https://placehold.co/340x200?text=No+Preview";
   return (
     <Link
       href={url}
-      target='_blank'
-      className='w-full h-[200px] cursor-pointer flex items-center bg-secondary text-text gap-3 text-left border-text-lighter border-[2px]'
+      target="_blank"
+      className="w-full h-[200px] cursor-pointer flex items-center bg-secondary text-text gap-3 text-left border-text-lighter border-[2px]"
       style={{
         textDecoration: "none",
       }}
     >
-      <div className='object-cover h-full'>
+      <div className="object-cover h-full">
         <img
-          src={data.image}
-          alt='Link Preview'
-          className='object-cover h-full w-[340px] m-0 object-left'
+          src={imageUrl}
+          alt="Link Preview"
+          className="object-cover h-full w-[340px] m-0 object-left"
         />
       </div>
-      <div className='p-4 w-[60%]'>
-        <h3 className='font-bold text-base leading-[2rem] mb-2 line-clamp-2'>
+      <div className="p-4 w-[60%]">
+        <h3 className="font-bold text-base leading-8 mb-2 line-clamp-2">
           {data.title}
         </h3>
-        <p className='text-base line-clamp-3 mb-2'>
-          {data.description}
-        </p>
-        <span className='mt-3 text-text-lighter text-xs line-clamp-1'>
+        <p className="text-base line-clamp-3 mb-2">{data.description}</p>
+        <span className="mt-3 text-text-lighter text-xs line-clamp-1">
           &nbsp;{url}
         </span>
       </div>
