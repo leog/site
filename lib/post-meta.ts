@@ -14,7 +14,7 @@ export interface PostMeta {
 
 export async function getPostMeta(slug: string): Promise<PostMeta | null> {
   try {
-    const post = await import(`../app/post/${slug}/page.mdx`);
+    const post = await import(`../app/(site)/post/${slug}/page.mdx`);
     return post.metadata as PostMeta;
   } catch (error) {
     if (
