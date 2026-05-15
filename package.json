@@ -1,8 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "extract-keywords": "npx tsx scripts/extract-keywords.ts",
+    "dev": "npx tsx scripts/extract-keywords.ts && next dev",
+    "build": "npx tsx scripts/extract-keywords.ts && next build",
     "start": "next start",
     "delete": "rm -rf app/post/*",
     "biome:check": "biome format .",

@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
   turbopack: {},
   outputFileTracingIncludes: {
     "/api/keystatic": ["./content/**/*"],
+    "/post/[slug]": ["./content/**/*"],
   },
 };
 

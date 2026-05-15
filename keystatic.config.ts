@@ -1,4 +1,5 @@
 import { collection, config, fields, singleton } from "@keystatic/core";
+import knownKeywords from "./lib/known-keywords.json";
 
 const repoOwner = process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO_OWNER;
 const repoName = process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO_NAME;
@@ -14,6 +15,21 @@ const storage =
       }
     : { kind: "local" as const };
 
+function keywordsField() {
+  return fields.array(
+    fields.text({
+      label: "Keyword",
+      description: knownKeywords.length
+        ? `Existing: ${knownKeywords.join(", ")}`
+        : undefined,
+    }),
+    {
+      label: "Keywords",
+      itemLabel: (props) => props.value || "New keyword",
+    },
+  );
+}
+
 export default config({
   storage,
   ui: {
@@ -24,25 +40,19 @@ export default config({
   collections: {
     posts: collection({
       label: "Posts",
-      slugField: "slug",
+      slugField: "title",
       path: "content/posts/*",
       format: { contentField: "content" },
       entryLayout: "content",
       schema: {
-        title: fields.text({
-          label: "Title",
-          validation: { isRequired: true },
-        }),
-        slug: fields.slug({
-          name: { label: "Slug" },
+        title: fields.slug({
+          name: { label: "Title", validation: { isRequired: true } },
         }),
         description: fields.text({
           label: "Description",
           multiline: true,
         }),
-        keywords: fields.array(fields.text({ label: "Keyword" }), {
-          label: "Keywords",
-        }),
+        keywords: keywordsField(),
         date: fields.date({
           label: "Published Date",
           validation: { isRequired: true },
@@ -77,9 +87,7 @@ export default config({
           label: "Description",
           multiline: true,
         }),
-        keywords: fields.array(fields.text({ label: "Keyword" }), {
-          label: "Keywords",
-        }),
+        keywords: keywordsField(),
         updatedAt: fields.date({
           label: "Updated Date",
           defaultValue: { kind: "today" },
