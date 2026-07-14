@@ -1,0 +1,19 @@
+---
+title: Claude Code Profiles
+description: Handling multiple Claude accounts in VSCode
+keywords:
+  - vscode
+  - extension
+date: 2026-07-13
+updatedAt: 2026-07-13
+draft: false
+---
+In this AI era, it is pretty common that you have your own Claude account but also the company you work for also provides you with a Claude account. At least that was my case.
+
+Even though Claude Code in the command line could be configured with an environment variable `CLAUDE_CONFIG_DIR` to point to different Claude configuration directory such as `~/.claude` (default) or `~/.claude-personal` the Claude VSCode extension lacked that flexibility, even though it could perfectly be baled into the extension itself.
+
+VSCode has a pretty neat way to separate workspaces and those are "profiles". Each profile could have their own set of extensions, IDE configuration, you name it. So I took that and defined you could actually set the already known environment variable `CLAUDE_CONFIG_DIR` and inject it into the right place in the official Claude VSCode extension to make it behave as the Claude Code with that same environment variable running in command line. Et voilà.
+
+I have transitioned to use ADEs by now, using [Orca](https://onorca.dev) right now but this extension that injects the environment variable according to its VSCode profile configuration helped a lot in my first attempts to include AI into my workflow. After all, you don't want to mix up your personal account tokens with your company tokens!
+
+Here is the extension: [https://marketplace.visualstudio.com/items?itemName=leog.claude-code-config-dir-patcher](https://marketplace.visualstudio.com/items?itemName=leog.claude-code-config-dir-patcher)
