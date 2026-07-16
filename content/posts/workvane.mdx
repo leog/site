@@ -1,0 +1,44 @@
+---
+title: Workvane
+description: >-
+  See Jira status and assignees on every GitHub pull request, filter your PR
+  list by Jira state, and move tickets through your workflow, without leaving
+  GitHub. Free Chrome extension.
+keywords:
+  - chrome
+  - extension
+date: 2026-07-16
+updatedAt: 2026-07-16
+draft: false
+---
+I spent months fighting a problem Jira and GitHub create for every team I've ever led, so I built the thing I wished existed.
+
+Being an Engineering Manager, Architect, or Tech Lead isn't only about raising the bar so the team ships more, better. It's also about following up the work, approving it, giving feedback, helping people feel safe shipping things.
+
+The part I struggled with most was the follow-up and approval phases, especially now that AI has made the coding part feel easier. GitHub had the pull requests, Jira had the tickets. Two tabs, two contexts, no glue between them.
+
+Jira has a Development section, but it lacks basic things. I tried to make it work. I gave Atlassian feedback. I even sat through a product-manager interview during their beta to explain how my team actually develops.
+
+I ended up building a Tampermonkey script that enhanced GitHub PR pages with Jira info just by insisting the team to include the ticket key in the PR title. It worked. I even added custom buttons to move a Jira ticket to the next state right from GitHub.
+
+Then I realized: this tool shouldn't just be used by me as a single gatekeeper of PRs.
+
+Everyone owns their PRs. Everyone needs a nudge to navigate their workday from time to time. But sharing a Tampermonkey script and updating it for fixes or new features, even via GitHub Gists was friction nobody asked for.
+
+So I packaged it as a Chrome extension. A Firefox version on the way. Some features need extra setup and are really for power users, so that became the natural line: Free for the basics everyone benefits from, Pro for the deeper workflow control. It also gives me a reason to keep improving it.
+
+So, meet ༄ Workvane. The org built around helping devs navigate their workday. It ships in "winds". The first wind: Jira + GitHub. Since the same problem shows up for any combination of ticketing tool and source-code tool, each combination can have its own extension or "wind".
+
+What it includes today:
+
+* Jira ticket status chip on the PR list and the PR page (sticky header too)
+* Assignee chip on every linked PR, see who owns what without clicking
+* Filter the PR list by Jira status or assignee from a built-in Workvane menu
+* Customizable chip colors, row tinting, and a browser-tab title prefix per status
+
+For the power users:
+
+* Conflict and unresolved-comment flags right in the PR list, the PRs that look ready but can't actually ship stop being invisible
+* One-click Jira transitions on conditions you define (e.g. PR is approved but Jira is still in code review)
+* No ticket key on the PR? Workvane searches Jira and suggests the most likely ticket from the title, branch, and author, then writes the link back into Jira. The "always put the key in the title" rule everyone forgets finally becomes optional
+* Approve a PR and create a linked follow-up Jira ticket in one flow (to tackle tech-debt, etc)
