@@ -1,30 +1,17 @@
-import { getAllPosts } from "@/lib/posts";
-import { getKeystaticWorkPage } from "@/lib/keystatic";
+import type { MetadataRoute } from "next";
+import { getAllPosts, getWorkPage } from "@/lib/keystatic";
 
-export default async function sitemap() {
-  const postsMeta = await getAllPosts();
-  const workPage = await getKeystaticWorkPage();
-
-  const posts = postsMeta.map((post) => ({
-    url: `https://leog.me${post.alternates.canonical}`,
-    lastModified:
-      post.updatedAt ??
-      post.date ??
-      post.fileLastModified ??
-      new Date().toISOString(),
-  }));
-
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const posts = await getAllPosts();
+  const workPage = await getWorkPage();
   const now = new Date().toISOString();
-  const routes = [
-    { route: "", lastModified: now },
-    {
-      route: "/work",
-      lastModified: workPage?.updatedAt ?? now,
-    },
-  ].map(({ route, lastModified }) => ({
-    url: `https://leog.me${route}`,
-    lastModified,
-  }));
 
-  return [...routes, ...posts];
+  return [
+    { url: "https://leog.me", lastModified: now },
+    { url: "https://leog.me/work", lastModified: workPage?.updatedAt ?? now },
+    ...posts.map((post) => ({
+      url: `https://leog.me${post.alternates.canonical}`,
+      lastModified: post.updatedAt ?? post.date ?? now,
+    })),
+  ];
 }

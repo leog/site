@@ -1,23 +1,15 @@
 import { AnimatedName } from "@/app/_components/animated-name";
 import { Keywords } from "@/app/_components/keywords";
-import { getKeystaticWorkPage } from "@/lib/keystatic";
+import { getWorkPage } from "@/lib/keystatic";
+import { Mdx } from "@/lib/mdx";
 import { mdxComponents } from "@/mdx-components";
 import type { Metadata } from "next";
-import { MDXRemote } from "next-mdx-remote/rsc";
-
-import * as fallbackWorkPage from "./default-content.mdx";
-
-const FallbackWorkContent = fallbackWorkPage.default;
-const fallbackMetadata = (
-  fallbackWorkPage as unknown as {
-    metadata?: Metadata;
-  }
-).metadata;
+import { notFound } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const workPage = await getKeystaticWorkPage();
+  const workPage = await getWorkPage();
   if (!workPage) {
-    return fallbackMetadata ?? {};
+    return {};
   }
 
   return {
@@ -31,10 +23,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function WorkPage() {
-  const workPage = await getKeystaticWorkPage();
-
+  const workPage = await getWorkPage();
   if (!workPage) {
-    return <FallbackWorkContent />;
+    notFound();
   }
 
   const content = await workPage.content();
@@ -44,7 +35,7 @@ export default async function WorkPage() {
       <mdxComponents.h1>{workPage.title}</mdxComponents.h1>
       <AnimatedName />
       <Keywords keywords={workPage.keywords} />
-      <MDXRemote source={content} components={mdxComponents} />
+      <Mdx source={content} />
     </>
   );
 }
