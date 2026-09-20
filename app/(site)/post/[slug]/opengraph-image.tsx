@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { getPostBySlug } from "@/lib/post-meta";
+import { getAllPosts, getPostBySlug } from "@/lib/keystatic";
 
 export const runtime = "nodejs";
 export const size = {
@@ -7,6 +7,11 @@ export const size = {
   height: 630,
 };
 export const contentType = "image/png";
+
+export async function generateStaticParams() {
+  const posts = await getAllPosts();
+  return posts.map(({ slug }) => ({ slug }));
+}
 
 const neon = "#bfdd0c";
 const background = "#030712";
@@ -20,10 +25,15 @@ const truncate = (value: string, max = 200) => {
   return `${value.slice(0, max - 1).trimEnd()}…`;
 };
 
-export default async function Image({ params }: { params: { slug: string } }) {
-  const post = await getPostBySlug(params.slug);
+export default async function Image({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
 
-  const title = post?.title ?? "A note from Leo Giovanetti";
+  const title = post?.title ?? "A post from Leo Giovanetti";
   const excerptSource =
     post?.description ??
     "Thoughts from Leo Giovanetti on product, engineering, and leadership.";
@@ -94,7 +104,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
         }}
       >
         leog.me/post/
-        {params.slug}
+        {slug}
       </div>
     </div>,
     {

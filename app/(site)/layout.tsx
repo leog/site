@@ -24,7 +24,7 @@ function Footer() {
     <footer className="mt-12 text-center">
       <div className="flex justify-center tracking-tight">
         I'm&nbsp;<b className="font-bold">leog</b>
-        &nbsp;in&nbsp;
+        &nbsp;on&nbsp;
         <a
           href="https://x.com/leog"
           target="_blank"
@@ -53,6 +53,12 @@ function Footer() {
         </a>
         &nbsp;😏
       </div>
+      <a
+        href="/feed.xml"
+        className="text-sm text-gray-400 underline decoration-neon"
+      >
+        RSS
+      </a>
     </footer>
   );
 }

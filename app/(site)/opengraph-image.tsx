@@ -1,6 +1,8 @@
 import { ImageResponse } from "next/og";
 import { metadata } from "../layout";
 
+const title = metadata.title.default.replace(/\.$/, "");
+
 export const runtime = "edge";
 export const size = {
   width: 1200,
@@ -37,7 +39,7 @@ export default function Image() {
           letterSpacing: "-0.04em",
         }}
       >
-        {metadata.title.default}
+        {title}
         <span style={{ color: neon }}>.</span>
       </div>
       <div

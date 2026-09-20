@@ -1,5 +1,35 @@
-import { getAllPosts } from "@/lib/posts";
+import { formatDate, getAllPosts, type PostMeta } from "@/lib/keystatic";
 import { mdxComponents } from "@/mdx-components";
+import { Keywords } from "./keywords";
+
+export function PostList({
+  posts,
+  showKeywords,
+}: Readonly<{ posts: PostMeta[]; showKeywords?: boolean }>) {
+  return (
+    <mdxComponents.ul>
+      {posts.map((post) => (
+        <mdxComponents.li key={post.slug}>
+          <mdxComponents.a href={post.alternates.canonical}>
+            {post.title}
+          </mdxComponents.a>
+          {post.description ? `: ${post.description}` : ""}
+          {post.date && (
+            <time dateTime={post.date} className="block text-sm text-gray-500">
+              {formatDate(post.date)}
+            </time>
+          )}
+          {showKeywords && <Keywords keywords={post.keywords} />}
+        </mdxComponents.li>
+      ))}
+    </mdxComponents.ul>
+  );
+}
+
+const normalize = (keywords?: string | string[]) =>
+  (Array.isArray(keywords) ? keywords : keywords ? [keywords] : [])
+    .map((k) => k.trim().toLowerCase())
+    .filter(Boolean);
 
 export async function Posts({
   exclude,
@@ -8,45 +38,16 @@ export async function Posts({
   exclude?: string | string[];
   include?: string | string[];
 }>) {
-  const posts = await getAllPosts();
-  const normalize = (keywords?: string | string[]) =>
-    Array.isArray(keywords)
-      ? keywords.map((keyword) => keyword.trim().toLowerCase()).filter(Boolean)
-      : keywords
-        ? [keywords.trim().toLowerCase()]
-        : [];
-
   const excludes = normalize(exclude);
   const includes = normalize(include);
+  const has = (post: PostMeta, list: string[]) =>
+    post.keywords.some((k) => list.includes(k.toLowerCase()));
 
-  const postsExcluded = excludes.length
-    ? posts.filter(
-        (post) =>
-          !post.keywords.some((keyword) =>
-            excludes.includes(keyword.toLowerCase()),
-          ),
-      )
-    : posts;
-
-  const postsIncluded = includes.length
-    ? postsExcluded.filter((post) =>
-        post.keywords.some((keyword) =>
-          includes.includes(keyword.toLowerCase()),
-        ),
-      )
-    : postsExcluded;
-  return (
-    <mdxComponents.ul>
-      {postsIncluded.map((post) => {
-        return (
-          <mdxComponents.li key={post.alternates.canonical}>
-            <mdxComponents.a href={post.alternates.canonical}>
-              {post.title}
-            </mdxComponents.a>
-            {post.description ? `: ${post.description}` : ""}
-          </mdxComponents.li>
-        );
-      })}
-    </mdxComponents.ul>
+  const posts = (await getAllPosts()).filter(
+    (post) =>
+      !(excludes.length && has(post, excludes)) &&
+      (!includes.length || has(post, includes)),
   );
+
+  return <PostList posts={posts} />;
 }

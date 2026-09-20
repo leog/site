@@ -11,6 +11,7 @@ export const metadata = {
   metadataBase: new URL("https://leog.me"),
   alternates: {
     canonical: "/",
+    types: { "application/rss+xml": "https://leog.me/feed.xml" },
   },
   title: {
     default: "Hi! I'm Leo Giovanetti.",
