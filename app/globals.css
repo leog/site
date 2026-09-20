@@ -205,25 +205,40 @@ table {
 }
 
 .avatar {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background-color: var(--color-neon);
-  position: absolute;
-  clip-path: inset(-100vw 0 0 0 round 50%);
-  border: 6px solid var(--color-text);
+  position: relative;
+  width: 110px;
+  height: 132px;
 }
 
-.avatar img {
+@media (min-width: 768px) {
+  .avatar {
+    width: 150px;
+    height: 180px;
+  }
+}
+
+/* neon block bleeding out bottom-right */
+.avatar::before {
+  content: "";
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(1);
+  inset: 0;
+  border-radius: 18px;
+  background: var(--color-neon);
+  transform: translate(12px, 12px);
+}
+
+.avatar-img {
+  position: relative;
   width: 100%;
-  height: auto;
-  transition: transform 0.2s ease;
+  height: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--color-text);
 }
 
-.avatar:hover img {
-  transform: translate(-50%, -50%) scale(1.6);
+.avatar-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
 }
