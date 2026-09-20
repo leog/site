@@ -46,6 +46,11 @@ h4 {
   text-wrap: balance;
 }
 
+/* An italic-only paragraph right after a heading is a subtitle: hug the heading */
+:is(h1, h2, h3) + p:has(> em:only-child) {
+  margin-top: -0.5rem;
+}
+
 pre {
   background-color: #16161e;
   border-radius: 0.5rem;

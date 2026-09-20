@@ -17,12 +17,12 @@ export const mdxComponents = {
     </h1>
   ),
   h2: ({ children, ...rest }: HeadingProps) => (
-    <h2 className="text-text font-bold mt-8 mb-3 text-xl" {...rest}>
+    <h2 className="text-text font-bold mt-8 mb-1 text-xl" {...rest}>
       {children}
     </h2>
   ),
   h3: ({ children, ...rest }: HeadingProps) => (
-    <h3 className="text-text font-medium mt-8 mb-3" {...rest}>
+    <h3 className="text-text font-medium mt-8 mb-1" {...rest}>
       {children}
     </h3>
   ),

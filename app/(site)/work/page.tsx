@@ -1,5 +1,5 @@
 import { AnimatedName } from "@/app/_components/animated-name";
-import { Keywords } from "@/app/_components/keywords";
+import { TitleKeywords } from "@/app/_components/keywords";
 import { getWorkPage } from "@/lib/keystatic";
 import { Mdx } from "@/lib/mdx";
 import { mdxComponents } from "@/mdx-components";
@@ -32,9 +32,10 @@ export default async function WorkPage() {
 
   return (
     <>
-      <mdxComponents.h1>{workPage.title}</mdxComponents.h1>
+      <TitleKeywords keywords={workPage.keywords}>
+        <mdxComponents.h1>{workPage.title}</mdxComponents.h1>
+      </TitleKeywords>
       <AnimatedName />
-      <Keywords keywords={workPage.keywords} />
       <Mdx source={content} />
     </>
   );
