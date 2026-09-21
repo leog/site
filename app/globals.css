@@ -7,6 +7,7 @@
   --color-secondary: #fff;
   --color-text: #1e2939;
   --color-text-lighter: #4a5565;
+  --color-code-bg: #f3f4f6;
 }
 
 :root {
@@ -36,6 +37,7 @@ body {
     --color-secondary: #000;
     --color-text: #a7abb1;
     --color-text-lighter: #d5d5d5;
+    --color-code-bg: #1f2430;
   }
 }
 
@@ -51,12 +53,10 @@ h4 {
   margin-top: -0.5rem;
 }
 
+/* Margin and radius live on the wrapper rendered by mdx-components' pre */
 pre {
-  background-color: #16161e;
-  border-radius: 0.5rem;
   overflow-x: auto;
   padding: 1rem;
-  margin: 1.5rem 0;
   line-height: 1;
 }
 
@@ -74,7 +74,7 @@ code {
   font-size: 14px;
   padding: 0.2em 0.4em;
   border-radius: 0.3em;
-  background-color: var(--color-gray-100);
+  background-color: var(--color-code-bg);
 }
 
 pre code {
@@ -91,7 +91,7 @@ pre code > span .sh__token--identifier {
 
 code:not(pre code) span {
   font-weight: 500;
-  color: black !important;
+  color: var(--color-primary) !important;
 }
 
 pre code span {
