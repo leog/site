@@ -1,0 +1,102 @@
+---
+title: Predictable PR preview URLs on Vercel
+description: >-
+  Vercel preview URLs are random. Make them a function of the PR number so
+  every app, workflow and AI agent can compute them instead of asking.
+keywords:
+  - agent-ready
+  - vercel
+  - github-actions
+  - ci
+  - open-source
+date: 2026-09-20
+updatedAt: 2026-09-20
+draft: false
+---
+## TL;DR
+
+Vercel gives every preview deployment a URL nobody can guess, like `app-git-feat-login-propsto.vercel.app`. In [Props.to](/post/props.to) I replaced that with `app.pr-42.props.build`, derived from the PR number and nothing else. A GitHub Actions workflow listens to Vercel's deployment events, issues a certificate and assigns the alias with the Vercel CLI. The workflow lives at [`.github/workflows/process_preview_deployment.yaml`](https://github.com/propsto/props.to/blob/main/.github/workflows/process_preview_deployment.yaml).
+
+This is the first of a series of quick tips on shaping an architecture so AI agents can operate it without a human in the loop. The rule behind this one: **if a value can be derived, derive it. Never make an agent look it up.**
+
+## Why random URLs hurt
+
+Props.to is a monorepo with three Vercel projects: `web`, `app` and `auth`. They only work together. The auth app sets a session cookie that the app reads, the web app rewrites profile pages into the app, and Auth.js validates redirect targets against a known host.
+
+With Vercel's default previews, each project gets its own unrelated hostname per branch. Cookies can't be shared across them, redirect allowlists can't be written ahead of time, and E2E tests can't know where to point. Every consumer of a preview, whether a teammate, a test runner or an agent reviewing a PR, has to go ask Vercel "where did this one end up?" first.
+
+## Make the URL a function of the PR
+
+The fix is a naming scheme everyone can compute independently:
+
+```
+https://pr-{N}.props.build       → web
+https://app.pr-{N}.props.build   → app
+https://auth.pr-{N}.props.build  → auth
+```
+
+`props.build` is a separate domain just for previews, with a wildcard DNS record pointing at Vercel. Production uses `props.to` with the same shape minus the `pr-N` segment, so the code paths are identical.
+
+Now three completely separate places compute the same URL without talking to each other:
+
+**Inside the apps at build time.** Vercel exposes `VERCEL_ENV` and `VERCEL_GIT_PULL_REQUEST_ID` to the build. A tiny helper in the shared constants package turns those plus a `PROPSTO_HOST` env var into the app and auth URLs:
+
+```ts title="packages/constants/other.ts"
+if (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_GIT_PULL_REQUEST_ID) {
+  return `https://auth.pr-${process.env.VERCEL_GIT_PULL_REQUEST_ID}.${host}`;
+}
+return `https://auth.${host}`;
+```
+
+The auth cookie domain is set to `.props.build`, so `auth.pr-42` and `app.pr-42` share a session for free. The Auth.js redirect callback allows any subdomain of `PROPSTO_HOST`, so the allowlist never needs a per-PR entry.
+
+**In the E2E workflow.** It needs the PR number and the host var, nothing else:
+
+```bash title="e2e.yaml"
+echo "app=https://app.pr-${PR_NUM}.${HOST}" >> $GITHUB_OUTPUT
+echo "auth=https://auth.pr-${PR_NUM}.${HOST}" >> $GITHUB_OUTPUT
+```
+
+**In an agent's head.** Give an agent a PR number and the naming rule and it can curl the preview, run Playwright against it or paste it into a review comment. No Vercel API token, no MCP call, no "find the deployment" step. That's the whole point.
+
+## The workflow that makes it real
+
+Vercel's GitHub integration creates a GitHub *deployment* per project and updates its status as the build progresses. The environment name is `Preview – app`, `Preview – auth`, and so on. So the workflow triggers on `deployment_status` and only runs for environments starting with `Preview`:
+
+```yaml title="process_preview_deployment.yaml"
+on: [deployment_status]
+
+jobs:
+  notify_deploy:
+    if: startsWith(github.event.deployment.environment, 'Preview')
+```
+
+Then it does five things:
+
+1. **Extract the project name** from the environment string. The last word of `Preview – app` is `app`. That's used both as the subdomain and to pick the right project ID from repository variables (`VERCEL_APP_PROJECT_ID`, `VERCEL_AUTH_PROJECT_ID`, ...).
+
+2. **Find the PR** for the deployed commit. Deployment events don't carry a PR number, but the GitHub API does:
+
+   ```bash
+   gh api repos/${{ github.repository }}/commits/$DEPLOYMENT_SHA/pulls --jq '.[] | .number'
+   ```
+
+3. **Compute the alias** as `{project}.pr-{N}.{PROPSTO_HOST}`.
+
+4. **Issue a certificate** if there isn't one. This was the part that cost me an afternoon. A wildcard cert for `*.props.build` covers `pr-42.props.build` but not `app.pr-42.props.build`, because wildcards only match one label. So the workflow checks `vercel certs ls` and, if the hostname isn't there, runs:
+
+   ```bash
+   vercel --scope $VERCEL_TEAM_ID cert issue app.pr-42.props.build --token $VERCEL_ACCESS_TOKEN
+   ```
+
+   The check matters because `deployment_status` fires several times per deployment and cert issuance isn't free.
+
+5. **Assign the alias** to the deployment. I use the [`justincase-jp/vercel-preview-url-alias`](https://github.com/justincase-jp/vercel-preview-url-alias) action, which finds the latest deployment for the project and commit and calls `vercel alias set` with the template. Then a comment lands on the PR with the final URL, or with a link to the failed build logs if the status was `failure`.
+
+Repository setup is four variables and one secret: `PROPSTO_HOST`, `VERCEL_TEAM_ID`, one `VERCEL_{PROJECT}_PROJECT_ID` per project, and a `VERCEL_ACCESS_TOKEN` with access to the team.
+
+## What this buys you
+
+Every new PR in Props.to gets three stable, HTTPS, mutually-aware preview URLs within a minute of the build finishing, and nobody had to look anything up. The E2E workflow waits for both `app` and `auth` previews to answer, runs the suites against them and reports back on the same PR. An agent asked to "check PR 42" can go straight to the browser.
+
+The generalisation is the tip: whenever an agent would need to ask a service for an ID, a URL or a name, see if you can make that value a pure function of something it already has. PR numbers, commit SHAs, branch names and package names are all excellent seeds.

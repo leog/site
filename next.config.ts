@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
     mdxRs: true,
   },
   turbopack: {},
+  // Agents fetch /post/<slug>.md for the raw Markdown of a post.
+  rewrites: async () => [
+    { source: "/post/:slug.md", destination: "/md/:slug" },
+  ],
   outputFileTracingIncludes: {
     "/**/*": ["./content/**/*"],
   },
