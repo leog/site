@@ -1,6 +1,7 @@
 import { AnimatedName } from "@/app/_components/animated-name";
 import { TitleKeywords } from "@/app/_components/keywords";
 import { formatDate, getAllPosts, getPostBySlug } from "@/lib/keystatic";
+import { postMarkdownPath } from "@/lib/markdown";
 import { Mdx } from "@/lib/mdx";
 import { mdxComponents } from "@/mdx-components";
 import type { Metadata } from "next";
@@ -31,6 +32,7 @@ export async function generateMetadata({
     description: post.description,
     alternates: {
       canonical: post.alternates.canonical,
+      types: { "text/markdown": postMarkdownPath(slug) },
     },
     keywords: post.keywords,
   };
@@ -63,6 +65,11 @@ export default async function PostPage({ params }: PostPageProps) {
       </TitleKeywords>
       <AnimatedName />
       <Mdx source={content} />
+      <p className="text-sm text-gray-400">
+        <a href={postMarkdownPath(slug)} className="underline decoration-neon">
+          Read as Markdown
+        </a>
+      </p>
     </>
   );
 }

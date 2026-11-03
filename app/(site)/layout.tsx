@@ -59,6 +59,13 @@ function Footer() {
       >
         RSS
       </a>
+      &nbsp;·&nbsp;
+      <a
+        href="/llms.txt"
+        className="text-sm text-gray-400 underline decoration-neon"
+      >
+        llms.txt
+      </a>
     </footer>
   );
 }

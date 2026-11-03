@@ -1,6 +1,7 @@
 import React, { ComponentPropsWithoutRef } from "react";
 import { Link } from "next-view-transitions";
 import { highlight } from "sugar-high";
+import { CopyButton } from "@/app/_components/copy-button";
 
 type HeadingProps = ComponentPropsWithoutRef<"h1">;
 type ParagraphProps = ComponentPropsWithoutRef<"p">;
@@ -87,6 +88,30 @@ export const mdxComponents = {
       >
         {children}
       </a>
+    );
+  },
+  pre: ({ children, ...props }: ComponentPropsWithoutRef<"pre">) => {
+    const inner = React.isValidElement<{
+      children?: unknown;
+      className?: string;
+      "data-meta"?: string;
+    }>(children)
+      ? children.props
+      : undefined;
+    const code = inner?.children;
+    const title =
+      inner?.["data-meta"]
+        ?.match(/title=(?:"([^"]*)"|(\S+))/)
+        ?.slice(1)
+        .find(Boolean) ?? inner?.className?.replace("language-", "");
+    return (
+      <div className="my-6 overflow-hidden rounded-lg bg-[#16161e]">
+        <div className="flex items-center justify-between border-b border-white/10 px-4 py-1.5 font-mono text-xs text-gray-400">
+          <span>{title}</span>
+          {typeof code === "string" && <CopyButton text={code} />}
+        </div>
+        <pre {...props}>{children}</pre>
+      </div>
     );
   },
   code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => {
